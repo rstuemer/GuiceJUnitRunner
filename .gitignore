@@ -1,0 +1,8 @@
+*.prefs
+/.project
+target/
+test-output/
+/target
+/.checkstyle
+/.classpath
+/.pmd
