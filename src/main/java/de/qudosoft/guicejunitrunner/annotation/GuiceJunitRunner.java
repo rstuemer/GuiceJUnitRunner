@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.qudosoft.guicejunitrunner.annotation;
+package de.qudosoft.guicejunitrunner.annotation;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

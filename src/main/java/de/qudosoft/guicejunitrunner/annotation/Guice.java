@@ -1,4 +1,4 @@
-package com.qudosoft.guicejunitrunner.annotation;
+package de.qudosoft.guicejunitrunner.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
 
