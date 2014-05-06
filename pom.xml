@@ -4,6 +4,19 @@
 	<groupId>com.qudosoft</groupId>
 	<artifactId>GuiceJunitRunner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<distributionManagement>
+		<repository>
+			<id>medusa</id>
+			<name>medusa-releases</name>
+			<url>http://medusa.ontram.de/artifactory/libs-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>medusa</id>
+			<name>medusa-snapshots</name>
+			<url>http://medusa.ontram.de/artifactory/libs-snapshot-local</url>
+		</snapshotRepository>
+
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>com.google.inject</groupId>
