@@ -26,6 +26,7 @@ package de.qudosoft.guicejunitrunner.annotation;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.runners.BlockJUnit4ClassRunner;
@@ -39,12 +40,15 @@ import com.google.inject.Module;
  *
  */
 public class GuiceJunitRunner extends BlockJUnit4ClassRunner {
-	
-	private static final Logger LOGGER = Logger.getLogger(GuiceJunitRunner.class.getName());
+
+	private static final Logger LOGGER = Logger
+			.getLogger(GuiceJunitRunner.class.getName());
 	private final Injector injector;
-	
+
 	/**
-	 * @param klass
+	 * Initialize the Runner with actual test class
+	 * 
+	 * @param clazz
 	 * @throws InitializationError
 	 */
 	public GuiceJunitRunner(Class<?> clazz) throws InitializationError {
@@ -54,20 +58,19 @@ public class GuiceJunitRunner extends BlockJUnit4ClassRunner {
 		Module[] modules = getModules(guice, clazz);
 		injector = createInjectorFor(modules);
 	}
-	
-	
+
 	@Override
 	public Object createTest() throws Exception {
 		Object obj = super.createTest();
 		injector.injectMembers(obj);
 		return obj;
 	}
-	
-	
+
 	/**
 	 * Returns the Modules defined on TestClass with {@link Guice} Annotation
 	 * 
-	 * @param guice Annotation
+	 * @param guice
+	 *            Annotation
 	 * @param testClass
 	 * @return
 	 */
@@ -77,44 +80,50 @@ public class GuiceJunitRunner extends BlockJUnit4ClassRunner {
 			Module instance;
 			try {
 				instance = moduleClass.newInstance();
-				LOGGER.info("Create Instance for Module:" + instance.getClass().getName());
+				LOGGER.info("Create Instance for Module:"
+						+ instance.getClass().getName());
 				result.add(instance);
 			} catch (InstantiationException e) {
+				LOGGER.log(Level.WARNING, "Error while instantiate module:"
+						+ moduleClass.getName(), e);
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
+				LOGGER.log(
+						Level.WARNING,
+						"Error while instantiate module class or its nullary constructor is not accessible: "
+								+ moduleClass.getName(), e);
 				e.printStackTrace();
 			}
-			
+
 		}
 		return result.toArray(new Module[result.size()]);
 	}
-	
+
 	/**
 	 * 
-	 * Create an Injctor with the given modules
+	 * Create an Injector with the given modules
 	 * 
 	 * @param modules
 	 * @return
 	 */
 	private Injector createInjectorFor(Module[] modules) {
 		return com.google.inject.Guice.createInjector(modules);
-		
+
 	}
-	
-	
+
 	// TODO: move to Utils
-	private static Annotation findAnnotationSuperClasses(Class annotationClass, Class c) {
-		while (c != null) {
-			Annotation result = c.getAnnotation(annotationClass);
-			if (result != null) {
-				return result;
-			}
-			else {
-				c = c.getSuperclass();
+	private static Annotation findAnnotationSuperClasses(Class annotationClass,
+			Class clazzToFindAnnotation) {
+		
+		Class clazz = clazzToFindAnnotation;
+		Annotation result = null;
+		while (clazz != null || result != null) {
+			 result = clazz.getAnnotation(annotationClass);
+			if (result == null) {
+				clazz = clazz.getSuperclass();
 			}
 		}
-		return null;
+		return result;
 	}
-	
-	
+
 }

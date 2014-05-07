@@ -21,7 +21,6 @@
  * THE SOFTWARE.
  */
 
-
 package de.qudosoft.guicejunitrunner.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
@@ -37,8 +36,8 @@ import com.google.inject.Module;
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target(TYPE)
 public @interface Guice {
-	/**
+     /**
 	 * @return the list of modules
 	 */
-	Class<? extends Module>[] modules () default {};
+	 Class<? extends Module>[] modules() default {};
 }
