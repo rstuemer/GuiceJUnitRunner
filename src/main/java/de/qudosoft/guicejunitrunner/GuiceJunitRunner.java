@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-package de.qudosoft.guicejunitrunner.annotation;
+package de.qudosoft.guicejunitrunner;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -34,6 +34,8 @@ import org.junit.runners.model.InitializationError;
 
 import com.google.inject.Injector;
 import com.google.inject.Module;
+
+import de.qudosoft.guicejunitrunner.annotation.Guice;
 
 /**
  * 
@@ -117,7 +119,7 @@ public class GuiceJunitRunner extends BlockJUnit4ClassRunner {
 		
 		Class clazz = clazzToFindAnnotation;
 		Annotation result = null;
-		while (clazz != null || result != null) {
+		while (clazz != null && result == null) {
 			 result = clazz.getAnnotation(annotationClass);
 			if (result == null) {
 				clazz = clazz.getSuperclass();
